@@ -21,6 +21,8 @@ body{
     background: linear-gradient(90deg,#020817,#04122b,#020817);
     color:#fff;
     min-height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 
 /* ================= HEADER ================= */
@@ -29,8 +31,8 @@ body{
     width:100%;
     padding:30px 40px;
     display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
+    justify-content:center;
+    align-items:center;
 }
 
 .logo-central{
@@ -74,8 +76,9 @@ body{
 
 .container{
     width:95%;
-    max-width:1400px;
+    max-width:1700px;
     margin:auto;
+    flex:1;
 }
 
 .card{
@@ -88,7 +91,7 @@ body{
 
 .form-grid{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:15px;
 }
 
@@ -174,6 +177,23 @@ tbody td{
     font-weight:700;
 }
 
+/* ================= FOOTER ================= */
+
+.footer{
+    width:100%;
+    margin-top:40px;
+    padding:20px;
+    text-align:center;
+    background:#010b1d;
+    border-top:1px solid rgba(255,255,255,0.1);
+    font-size:14px;
+    color:#cfcfcf;
+}
+
+.footer strong{
+    color:#fff;
+}
+
 /* ================= IMPRESSÃO ================= */
 
 .print-area{
@@ -181,6 +201,11 @@ tbody td{
 }
 
 @media print{
+
+    @page{
+        size:A4 landscape;
+        margin:5mm;
+    }
 
     body{
         background:#fff;
@@ -190,67 +215,74 @@ tbody td{
     .topo,
     .card,
     .btn-print,
-    .table-container{
+    .table-container,
+    .footer{
         display:none !important;
     }
 
     .print-area{
         display:block;
-        width:210mm;
-        height:148mm;
-        margin:auto;
-        padding:15mm;
-        page-break-after:avoid;
+        width:100%;
+        margin:0;
+        padding:0;
     }
 
     .print-box{
+        width:100%;
         border:2px solid #000;
         border-radius:10px;
-        padding:15px;
-        height:100%;
+        padding:10px;
+        margin:0;
     }
 
     .print-header{
         text-align:center;
-        margin-bottom:20px;
-    }
-
-    .print-header img{
-        width:140px;
         margin-bottom:10px;
     }
 
-    .print-header h2{
-        font-size:22px;
-        color:#000;
+    .print-header img{
+        width:120px;
         margin-bottom:5px;
+    }
+
+    .print-header h2{
+        font-size:20px;
+        color:#000;
+        margin-bottom:3px;
     }
 
     .print-header p{
         color:#000;
-        font-size:14px;
+        font-size:13px;
     }
 
     .print-table{
         width:100%;
         border-collapse:collapse;
-        margin-top:10px;
+        margin-top:5px;
     }
 
     .print-table th{
         background:#ddd !important;
         color:#000 !important;
         border:1px solid #000;
-        padding:10px;
-        font-size:13px;
+        padding:6px;
+        font-size:11px;
     }
 
     .print-table td{
         border:1px solid #000;
-        padding:10px;
-        font-size:13px;
+        padding:6px;
+        font-size:11px;
         color:#000;
         text-align:center;
+    }
+
+    .print-footer{
+        margin-top:10px;
+        text-align:center;
+        font-size:11px;
+        color:#000;
     }
 
 }
@@ -262,7 +294,7 @@ tbody td{
     }
 
     .logo-central h1{
-        font-size:34px;
+        font-size:32px;
     }
 
 }
@@ -279,8 +311,7 @@ IMPRIMIR
 
     <div class="logo-central">
 
-        <!-- LOGO CENTRALIZADA -->
-    <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logomarca da Prefeitura de Natal" class="logo">
+        <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logo Prefeitura">
 
         <h1>CONTROLE DE VACINAS</h1>
 
@@ -294,25 +325,59 @@ IMPRIMIR
 
         <div class="form-grid">
 
+            <!-- VACINAS -->
             <select id="vacina">
-                <option selected>COVID-19</option>
+
+                <option selected>ANTIRRÁBICA</option>
                 <option>DT ADULTO</option>
-                <option>ANTIRRÁBICA</option>
+                <option>DTpa GESTANTE</option>
+                <option>DTp INFANTIL</option>
+                <option>FEBRE AMARELA</option>
+                <option>HPV4</option>
                 <option>HEPATITE B</option>
-                <option>INFLUENZA</option>
+                <option>HEPATITE PED A</option>
+                <option>VARICELA</option>
+                <option>MENINGO ACWY</option>
+                <option>MENINGO C</option>
+                <option>QDENGA</option>
+                <option>DENGUE</option>
+                <option>PENTA</option>
+                <option>PNEUMO 10</option>
+                <option>ROTAVÍRUS</option>
                 <option>TRÍPLICE VIRAL</option>
+                <option>POLIO (VIP)</option>
+                <option>TETRA VIRAL</option>
+                <option>COVID COMIRNATY ADULTO</option>
+                <option>VSR BRONQUIOLITE</option>
+                <option>INFLUENZA</option>
+                <option>PNEUMO 23</option>
+
             </select>
 
+            <!-- LOTE -->
             <input type="text" id="lote" placeholder="Digite o lote">
 
+            <!-- VALIDADE -->
             <input type="date" id="validade">
 
+            <!-- LABORATÓRIO -->
             <select id="laboratorio">
+
                 <option selected>BUTANTAN</option>
                 <option>FIOCRUZ</option>
                 <option>PFIZER</option>
                 <option>SERUM</option>
+                <option>SINOVAC</option>
+                <option>VARILRIX</option>
+                <option>FUND</option>
+                <option>TAKEDA</option>
+                <option>ABRYSVO</option>
+                <option>MSD</option>
+
             </select>
+
+            <!-- OBSERVAÇÃO -->
+            <input type="text" id="observacao" placeholder="Observação">
 
         </div>
 
@@ -322,18 +387,23 @@ IMPRIMIR
 
     </div>
 
+    <!-- TABELA -->
+
     <div class="table-container">
 
         <table id="tabela">
 
             <thead>
+
                 <tr>
                     <th>VACINA</th>
                     <th>LOTE</th>
                     <th>VALIDADE</th>
                     <th>LABORATÓRIO</th>
+                    <th>OBSERVAÇÃO</th>
                     <th>AÇÃO</th>
                 </tr>
+
             </thead>
 
             <tbody></tbody>
@@ -344,6 +414,15 @@ IMPRIMIR
 
 </div>
 
+<!-- FOOTER -->
+
+<footer class="footer">
+
+    <strong>ANTONIEL SOUSA</strong><br>
+    UBS CIDADE SATÉLITE
+
+</footer>
+
 <!-- ÁREA DE IMPRESSÃO -->
 
 <div class="print-area">
@@ -352,7 +431,7 @@ IMPRIMIR
 
         <div class="print-header">
 
-            <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logomarca da Prefeitura de Natal" class="logo">
+            <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logo Prefeitura">
 
             <h2>CONTROLE DE VACINAS</h2>
 
@@ -363,17 +442,26 @@ IMPRIMIR
         <table class="print-table">
 
             <thead>
+
                 <tr>
                     <th>VACINA</th>
                     <th>LOTE</th>
                     <th>VALIDADE</th>
                     <th>LABORATÓRIO</th>
+                    <th>OBSERVAÇÃO</th>
                 </tr>
+
             </thead>
 
             <tbody id="printTableBody"></tbody>
 
         </table>
+
+        <div class="print-footer">
+
+            UBS Cidade Satélite • Controle de Vacinas
+
+        </div>
 
     </div>
 
@@ -387,10 +475,14 @@ function adicionarVacina(){
     const lote = document.getElementById('lote').value;
     const validade = document.getElementById('validade').value;
     const laboratorio = document.getElementById('laboratorio').value;
+    const observacao = document.getElementById('observacao').value;
 
     if(lote === '' || validade === ''){
+
         alert('Preencha lote e validade');
+
         return;
+
     }
 
     const tabela = document.querySelector('#tabela tbody');
@@ -402,6 +494,7 @@ function adicionarVacina(){
         <td>${lote}</td>
         <td>${formatarData(validade)}</td>
         <td>${laboratorio}</td>
+        <td>${observacao}</td>
         <td>
             <button class="btn-delete" onclick="removerLinha(this)">
                 Excluir
@@ -412,6 +505,8 @@ function adicionarVacina(){
     atualizarImpressao();
 
     document.getElementById('lote').value = '';
+    document.getElementById('validade').value = '';
+    document.getElementById('observacao').value = '';
 
 }
 
@@ -441,6 +536,7 @@ function atualizarImpressao(){
                 <td>${colunas[1].innerText}</td>
                 <td>${colunas[2].innerText}</td>
                 <td>${colunas[3].innerText}</td>
+                <td>${colunas[4].innerText}</td>
             </tr>
         `;
 
