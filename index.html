@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CONTROLE DE VACINAS</title>
+<title>Controle de Vacinas</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================
-   GERAL
+   RESET
 ========================= */
 
 *{
@@ -19,6 +19,10 @@
     padding:0;
     box-sizing:border-box;
 }
+
+/* =========================
+   BODY
+========================= */
 
 body{
     font-family:'Montserrat',sans-serif;
@@ -50,8 +54,12 @@ body{
 }
 
 .logo{
-    width:170px;
+    width:180px;
 }
+
+/* =========================
+   BOTÃO IMPRIMIR
+========================= */
 
 .btn-print{
     background:#fff;
@@ -62,6 +70,7 @@ body{
     font-weight:700;
     cursor:pointer;
     transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.3);
 }
 
 .btn-print:hover{
@@ -73,13 +82,13 @@ body{
 ========================= */
 
 h1{
-    font-size:50px;
+    font-size:52px;
     margin-bottom:30px;
     font-weight:700;
 }
 
 /* =========================
-   FORM
+   FORMULÁRIO
 ========================= */
 
 .form-box{
@@ -111,6 +120,10 @@ h1{
     outline:none;
     border:2px solid #2563eb;
 }
+
+/* =========================
+   BOTÃO ADICIONAR
+========================= */
 
 .btn-add{
     border:none;
@@ -163,6 +176,10 @@ tbody tr:nth-child(even){
     background:#262626;
 }
 
+/* =========================
+   BOTÃO EXCLUIR
+========================= */
+
 .btn-delete{
     background:red;
     color:#fff;
@@ -173,12 +190,37 @@ tbody tr:nth-child(even){
 }
 
 /* =========================
-   IMPRESSÃO
+   HEADER IMPRESSÃO
 ========================= */
 
 .print-header{
     display:none;
 }
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:900px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        font-size:38px;
+    }
+
+    .topo{
+        flex-direction:column;
+        gap:20px;
+    }
+
+}
+
+/* =========================
+   IMPRESSÃO
+========================= */
 
 @media print{
 
@@ -213,7 +255,7 @@ tbody tr:nth-child(even){
     }
 
     .print-header img{
-        width:120px;
+        width:140px;
         margin-bottom:10px;
     }
 
@@ -272,8 +314,9 @@ tbody tr:nth-child(even){
     <div class="topo">
 
         <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Logo_Prefeitura_de_Natal.svg/2560px-Logo_Prefeitura_de_Natal.svg.png"
-        class="logo">
+        src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png"
+        class="logo"
+        alt="Logo Prefeitura de Natal">
 
         <button class="btn-print" onclick="window.print()">
             IMPRIMIR
@@ -284,11 +327,12 @@ tbody tr:nth-child(even){
     <!-- TITULO -->
     <h1>CONTROLE DE VACINAS</h1>
 
-    <!-- FORM -->
+    <!-- FORMULÁRIO -->
     <div class="form-box">
 
         <div class="form-grid">
 
+            <!-- VACINA -->
             <select id="vacina" class="form-control">
 
                 <option>ANTIRRÁBICA</option>
@@ -310,20 +354,25 @@ tbody tr:nth-child(even){
                 <option>TRÍPLICE VIRAL</option>
                 <option>POLIO (VIP)</option>
                 <option>TETRA VIRAL</option>
+                <option>COVID COMIRNATY ADULTO</option>
+                <option>VSR BRONQUIOLITE</option>
                 <option>INFLUENZA</option>
                 <option>PNEUMO 23</option>
 
             </select>
 
+            <!-- LOTE -->
             <input type="text"
             id="lote"
             class="form-control"
             placeholder="Digite o lote">
 
+            <!-- VALIDADE -->
             <input type="date"
             id="validade"
             class="form-control">
 
+            <!-- LABORATÓRIO -->
             <select id="laboratorio" class="form-control">
 
                 <option>BUTANTAN</option>
@@ -336,6 +385,7 @@ tbody tr:nth-child(even){
 
             </select>
 
+            <!-- BOTÃO -->
             <button class="btn-add" onclick="adicionarVacina()">
                 ADICIONAR
             </button>
@@ -348,7 +398,8 @@ tbody tr:nth-child(even){
     <div class="print-header">
 
         <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Logo_Prefeitura_de_Natal.svg/2560px-Logo_Prefeitura_de_Natal.svg.png">
+        src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png"
+        alt="Logo Prefeitura">
 
         <h2>CONTROLE DE VACINAS</h2>
 
@@ -379,7 +430,21 @@ tbody tr:nth-child(even){
                     <td>31/08/2026</td>
                     <td>BUTANTAN</td>
                     <td>
-                        <button class="btn-delete">
+                        <button class="btn-delete"
+                        onclick="excluirLinha(this)">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>DT ADULTO</td>
+                    <td>2335L006C</td>
+                    <td>28/02/2028</td>
+                    <td>SERUM</td>
+                    <td>
+                        <button class="btn-delete"
+                        onclick="excluirLinha(this)">
                             Excluir
                         </button>
                     </td>
@@ -402,9 +467,11 @@ function adicionarVacina(){
     let validade = document.getElementById("validade").value;
     let laboratorio = document.getElementById("laboratorio").value;
 
-    if(lote == "" || validade == ""){
+    if(lote === "" || validade === ""){
+
         alert("Preencha todos os campos!");
         return;
+
     }
 
     let data = new Date(validade);
