@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CONTROLE DE VACINAS</title>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================
+   GERAL
+========================================= */
+
+body{
+    margin:0;
+    padding-bottom:80px;
+    font-family:'Montserrat', Arial, sans-serif;
+
+    background: linear-gradient(-45deg, #0f172a, #111827, #1e293b, #020617);
+
+    background-size:400% 400%;
+    animation:gradientBG 15s ease infinite;
+
+    color:#fff;
+}
+
+@keyframes gradientBG{
+
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+
+}
+
+.version{
+
+    position:absolute;
+    top:10px;
+    left:10px;
+
+    background-color:rgba(0,123,255,0.7);
+
+    color:white;
+
+    padding:5px 10px;
+
+    border-radius:5px;
+
+    font-size:14px;
+
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header{
+    padding:40px 0 20px;
+}
+
+.logo{
+    width:140px;
+}
+
+h1{
+    font-weight:700;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.card-sistema{
+
+    background-color:rgba(30,30,30,0.85);
+
+    border-radius:16px;
+
+    padding:25px;
+
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.form-control,
+.custom-select{
+
+    border-radius:12px;
+
+    height:56px;
+
+    background:#2c2c2c;
+
+    color:#fff;
+
+    border:1px solid #444;
+
+}
+
+.form-control:focus,
+.custom-select:focus{
+
+    background:#2c2c2c;
+
+    color:#fff;
+
+    border-color:#386bf7;
+
+    box-shadow:0 0 0 0.2rem rgba(56,107,247,.25);
+
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.botaoAnimado{
+
+    padding:14px 24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:none;
+
+    border-radius:12px;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    height:56px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+.botao-add{
+
+    width:100%;
+
+    background: linear-gradient(130deg, blue, rgb(136,0,255), rgb(195,10,176));
+
+    background-size:400% 400%;
+
+    animation:gradientAnimation 6s infinite paused;
+
+}
+
+.botao-add:hover{
+
+    animation-play-state:running;
+
+    transform:scale(1.02);
+
+}
+
+.botao-imprimir{
+
+    position:fixed;
+
+    top:20px;
+
+    right:20px;
+
+    z-index:999;
+
+    background:#fff;
+
+    color:#000;
+
+}
+
+.botao-imprimir:hover{
+
+    background:#000;
+
+    color:#fff;
+
+}
+
+@keyframes gradientAnimation{
+
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+
+}
+
+/* =========================================
+   TABELA
+========================================= */
+
+#tabelaVacinas{
+
+    margin-top:30px;
+
+    background-color:rgba(30,30,30,0.85);
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+#tabelaVacinas table{
+    margin-bottom:0;
+}
+
+#tabelaVacinas table thead th{
+
+    background:#386bf7;
+
+    color:#fff;
+
+    border:none;
+
+}
+
+#tabelaVacinas table tbody td{
+
+    color:#fff;
+
+    border-top:1px solid #444;
+
+    vertical-align:middle;
+
+}
+
+#tabelaVacinas table tbody tr:nth-child(even){
+    background:#2c2c2c;
+}
+
+#tabelaVacinas table tbody tr:nth-child(odd){
+    background:#212121;
+}
+
+#tabelaVacinas table tbody tr:hover{
+    background:#386af738;
+}
+
+.btn-excluir{
+
+    background:red;
+
+    border:none;
+
+    color:#fff;
+
+    padding:6px 12px;
+
+    border-radius:8px;
+
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+
+    position:fixed;
+
+    bottom:0;
+
+    width:100%;
+
+    background:#212121;
+
+    color:#ccc;
+
+    padding:10px 0;
+
+    text-align:center;
+
+    font-size:14px;
+
+}
+
+.footer a{
+
+    color:#386bf7;
+
+    text-decoration:none;
+
+}
+
+/* =========================================
+   IMPRESSÃO
+========================================= */
+
+.print-header{
+    display:none;
+}
+
+@media print{
+
+    @page{
+        size:A4 portrait;
+        margin:10mm;
+    }
+
+    body{
+
+        background:#fff !important;
+
+        color:#000 !important;
+
+        font-family:Arial, sans-serif;
+
+    }
+
+    .header,
+    .card-sistema,
+    .footer,
+    .botao-imprimir,
+    .acoes,
+    .version{
+
+        display:none !important;
+
+    }
+
+    .container{
+
+        width:100%;
+
+        margin:0;
+
+        padding:0;
+
+    }
+
+    /* ÁREA IMPRESSÃO */
+
+    .area-impressao{
+
+        width:180mm;
+
+        min-height:120mm;
+
+        margin:auto;
+
+        border:1px solid #000;
+
+        padding:10px;
+
+    }
+
+    /* TOPO */
+
+    .print-header{
+
+        display:block;
+
+        margin-bottom:15px;
+
+    }
+
+    .topo-impressao{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:15px;
+
+        border-bottom:2px solid #000;
+
+        padding-bottom:10px;
+
+    }
+
+    .logo-print{
+
+        width:70px;
+
+        height:70px;
+
+        object-fit:contain;
+
+    }
+
+    .texto-print{
+
+        text-align:center;
+
+    }
+
+    .texto-print h2{
+
+        font-size:16px;
+
+        margin:0;
+
+        color:#000;
+
+        font-weight:700;
+
+    }
+
+    .texto-print h3{
+
+        font-size:13px;
+
+        margin:2px 0;
+
+        color:#000;
+
+    }
+
+    .texto-print h4{
+
+        font-size:15px;
+
+        margin-top:5px;
+
+        color:#000;
+
+        font-weight:700;
+
+    }
+
+    /* TABELA */
+
+    #tabelaVacinas{
+
+        background:transparent !important;
+
+        border-radius:0;
+
+        overflow:visible;
+
+        margin-top:0;
+
+    }
+
+    #tabelaVacinas table{
+
+        width:100%;
+
+        border-collapse:collapse;
+
+        font-size:10pt;
+
+    }
+
+    #tabelaVacinas table thead th{
+
+        background:#d9d9d9 !important;
+
+        color:#000 !important;
+
+        border:1px solid #000 !important;
+
+        padding:5px;
+
+        text-align:left;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+
+    }
+
+    #tabelaVacinas table td{
+
+        color:#000 !important;
+
+        border:1px solid #000 !important;
+
+        padding:5px;
+
+        background:#fff !important;
+
+    }
+
+    #tabelaVacinas table tbody tr{
+
+        background:#fff !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BOTÃO IMPRIMIR -->
+
+<button onclick="window.print()" class="botaoAnimado botao-imprimir">
+    IMPRIMIR
+</button>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<header class="header text-center">
+
+<img 
+src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" 
+class="logo">
+
+<h1 class="mt-3">
+    CONTROLE DE VACINAS
+</h1>
+
+</header>
+
+<!-- FORMULÁRIO -->
+
+<div class="card-sistema">
+
+<div class="row">
+
+<div class="col-md-3 mb-3">
+
+<select id="vacina" class="custom-select">
+
+<option value="">Selecione a Vacina</option>
+
+<option>ANTIRRÁBICA</option>
+<option>DT ADULTO</option>
+<option>DTpa GESTANTE</option>
+<option>DTp INFANTIL</option>
+<option>FEBRE AMARELA</option>
+<option>HPV4</option>
+<option>HEPATITE B</option>
+<option>HEPATITE PED A</option>
+<option>VARICELA</option>
+<option>MENINGO ACWY</option>
+<option>MENINGO C</option>
+<option>QDENGA</option>
+<option>DENGUE</option>
+<option>PENTA</option>
+<option>PNEUMO 10</option>
+<option>ROTAVÍRUS</option>
+<option>TRÍPLICE VIRAL</option>
+<option>POLIO (VIP)</option>
+<option>TETRA VIRAL</option>
+<option>COVID COMIRNATY ADULTO</option>
+<option>VSR BRONQUIOLITE</option>
+<option>INFLUENZA</option>
+<option>PNEUMO 23</option>
+
+</select>
+
+</div>
+
+<div class="col-md-3 mb-3">
+<input type="text" id="lote" class="form-control" placeholder="Digite o lote">
+</div>
+
+<div class="col-md-3 mb-3">
+<input type="date" id="validade" class="form-control">
+</div>
+
+<div class="col-md-3 mb-3">
+
+<select id="laboratorio" class="custom-select">
+
+<option value="">Selecione o Laboratório</option>
+
+<option>BUTANTAN</option>
+<option>SERUM</option>
+<option>FIOCRUZ</option>
+<option>SINOVAC</option>
+<option>TAKEDA</option>
+<option>FUND</option>
+<option>ABRYSVO</option>
+<option>MSD</option>
+
+</select>
+
+</div>
+
+<div class="col-12">
+
+<button onclick="adicionarVacina()" class="botaoAnimado botao-add">
+    ADICIONAR VACINA
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- IMPRESSÃO -->
+
+<div class="area-impressao">
+
+<div class="print-header">
+
+<div class="topo-impressao">
+
+<img 
+src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" 
+class="logo">
+
+<div class="texto-print">
+
+<h2>PREFEITURA MUNICIPAL DO NATAL</h2>
+
+<h3>SECRETARIA MUNICIPAL DE SAÚDE</h3>
+
+<h4>UBS CIDADE SATELITE</h4>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TABELA -->
+
+<div id="tabelaVacinas" class="table-responsive">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>VACINAS</th>
+<th>LOTES</th>
+<th>VALIDADE</th>
+<th>LABORATÓRIO</th>
+<th class="acoes">AÇÃO</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbodyVacinas">
+
+<tr>
+<td>ANTIRRÁBICA</td>
+<td>X1B951V</td>
+<td>31/08/2026</td>
+<td>BUTANTAN</td>
+<td class="acoes">
+<button class="btn-excluir" onclick="removerLinha(this)">
+Excluir
+</button>
+</td>
+</tr>
+
+<tr>
+<td>DT ADULTO</td>
+<td>2335L006C</td>
+<td>28/02/2028</td>
+<td>SERUM</td>
+<td class="acoes">
+<button class="btn-excluir" onclick="removerLinha(this)">
+Excluir
+</button>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<span>
+
+Desenvolvido por 
+
+<a href="#">
+ANTONIEL SOUSA
+</a>
+ © 2026
+
+</span>
+
+</footer>
+
+<script>
+
+function adicionarVacina(){
+
+    let vacina = document.getElementById("vacina").value;
+
+    let lote = document.getElementById("lote").value;
+
+    let validade = document.getElementById("validade").value;
+
+    let laboratorio = document.getElementById("laboratorio").value;
+
+    if(vacina == "" || lote == "" || validade == "" || laboratorio == ""){
+
+        alert("Preencha todos os campos!");
+
+        return;
+
+    }
+
+    let tabela = document.getElementById("tbodyVacinas");
+
+    let linha = tabela.insertRow();
+
+    linha.innerHTML = `
+
+        <td>${vacina}</td>
+
+        <td>${lote}</td>
+
+        <td>${formatarData(validade)}</td>
+
+        <td>${laboratorio}</td>
+
+        <td class="acoes">
+
+            <button class="btn-excluir" onclick="removerLinha(this)">
+                Excluir
+            </button>
+
+        </td>
+
+    `;
+
+    document.getElementById("vacina").value = "";
+
+    document.getElementById("lote").value = "";
+
+    document.getElementById("validade").value = "";
+
+    document.getElementById("laboratorio").value = "";
+
+}
+
+function removerLinha(botao){
+
+    botao.parentElement.parentElement.remove();
+
+}
+
+function formatarData(data){
+
+    let partes = data.split("-");
+
+    return partes[2] + "/" + partes[1] + "/" + partes[0];
+
+}
+
+</script>
+
+</body>
+</html>
