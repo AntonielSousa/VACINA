@@ -6,13 +6,9 @@
 
 <title>Controle de Vacinas</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================
-   RESET
-========================= */
 
 *{
     margin:0;
@@ -20,236 +16,201 @@
     box-sizing:border-box;
 }
 
-/* =========================
-   BODY
-========================= */
-
 body{
     font-family:'Montserrat',sans-serif;
-    background:linear-gradient(90deg,#020617,#0f172a,#020617);
-    min-height:100vh;
+    background: linear-gradient(90deg,#020817,#04122b,#020817);
     color:#fff;
+    min-height:100vh;
 }
 
-/* =========================
-   CONTAINER
-========================= */
-
-.container{
-    width:95%;
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
-}
-
-/* =========================
-   TOPO
-========================= */
+/* ================= HEADER ================= */
 
 .topo{
+    width:100%;
+    padding:30px 40px;
     display:flex;
     justify-content:space-between;
     align-items:flex-start;
-    margin-bottom:30px;
 }
 
-.logo{
+.logo-central{
+    width:100%;
+    text-align:center;
+}
+
+.logo-central img{
     width:180px;
+    margin-bottom:15px;
 }
 
-/* =========================
-   BOTÃO IMPRIMIR
-========================= */
+.logo-central h1{
+    font-size:48px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+/* ================= BOTÃO ================= */
 
 .btn-print{
+    position:fixed;
+    top:20px;
+    right:20px;
     background:#fff;
     color:#000;
     border:none;
-    padding:15px 30px;
+    padding:15px 28px;
     border-radius:14px;
     font-weight:700;
     cursor:pointer;
-    transition:.3s;
-    box-shadow:0 5px 15px rgba(0,0,0,.3);
+    z-index:999;
+    transition:0.3s;
 }
 
 .btn-print:hover{
     transform:scale(1.03);
 }
 
-/* =========================
-   TITULO
-========================= */
+/* ================= CARD ================= */
 
-h1{
-    font-size:52px;
-    margin-bottom:30px;
-    font-weight:700;
+.container{
+    width:95%;
+    max-width:1400px;
+    margin:auto;
 }
 
-/* =========================
-   FORMULÁRIO
-========================= */
-
-.form-box{
-    background:#1d1d1d;
-    padding:25px;
-    border-radius:20px;
-    margin-bottom:30px;
-    box-shadow:0 0 20px rgba(0,0,0,.3);
+.card{
+    background:#1f1f1f;
+    border-radius:22px;
+    padding:30px;
+    margin-top:20px;
+    box-shadow:0 0 30px rgba(0,0,0,0.3);
 }
 
 .form-grid{
     display:grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
 }
 
-.form-control{
+input,select{
     width:100%;
-    height:55px;
-    border:none;
-    border-radius:12px;
+    height:58px;
+    border-radius:14px;
+    border:1px solid #444;
     background:#2a2a2a;
     color:#fff;
     padding:0 15px;
     font-size:15px;
-}
-
-.form-control:focus{
     outline:none;
-    border:2px solid #2563eb;
 }
 
-/* =========================
-   BOTÃO ADICIONAR
-========================= */
+input:focus,
+select:focus{
+    border-color:#5d5dff;
+}
 
 .btn-add{
+    margin-top:20px;
+    width:100%;
+    height:60px;
     border:none;
-    height:55px;
-    padding:0 30px;
-    border-radius:12px;
-    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    border-radius:16px;
+    background:linear-gradient(90deg,#0a00ff,#6a00ff);
     color:#fff;
+    font-size:18px;
     font-weight:700;
     cursor:pointer;
-    transition:.3s;
+    transition:0.3s;
 }
 
 .btn-add:hover{
-    transform:scale(1.03);
+    transform:scale(1.01);
 }
 
-/* =========================
-   TABELA
-========================= */
+/* ================= TABELA ================= */
 
 .table-container{
-    background:#1d1d1d;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 0 20px rgba(0,0,0,.3);
+    margin-top:30px;
+    overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    overflow:hidden;
+    border-radius:15px;
 }
 
 thead{
-    background:#2563eb;
+    background:#315efb;
 }
 
 thead th{
-    padding:15px;
-    text-align:left;
+    padding:14px;
     font-size:15px;
+    text-align:center;
+}
+
+tbody tr{
+    background:#242424;
+}
+
+tbody tr:nth-child(even){
+    background:#2d2d2d;
 }
 
 tbody td{
     padding:14px;
-    border-top:1px solid #333;
+    text-align:center;
 }
-
-tbody tr:nth-child(even){
-    background:#262626;
-}
-
-/* =========================
-   BOTÃO EXCLUIR
-========================= */
 
 .btn-delete{
     background:red;
-    color:#fff;
     border:none;
+    color:#fff;
     padding:8px 14px;
-    border-radius:8px;
+    border-radius:10px;
     cursor:pointer;
+    font-weight:700;
 }
 
-/* =========================
-   HEADER IMPRESSÃO
-========================= */
+/* ================= IMPRESSÃO ================= */
 
-.print-header{
+.print-area{
     display:none;
 }
-
-/* =========================
-   RESPONSIVO
-========================= */
-
-@media(max-width:900px){
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    h1{
-        font-size:38px;
-    }
-
-    .topo{
-        flex-direction:column;
-        gap:20px;
-    }
-
-}
-
-/* =========================
-   IMPRESSÃO
-========================= */
 
 @media print{
 
     body{
-        background:#fff !important;
+        background:#fff;
+        color:#000;
     }
 
-    .form-box,
-    .btn-delete,
-    .btn-print{
-        display:none;
+    .topo,
+    .card,
+    .btn-print,
+    .table-container{
+        display:none !important;
     }
 
-    .container{
-        width:18cm;
+    .print-area{
+        display:block;
+        width:210mm;
+        height:148mm;
         margin:auto;
-        padding:0;
+        padding:15mm;
+        page-break-after:avoid;
     }
 
-    .topo{
-        display:none;
-    }
-
-    h1{
-        display:none;
+    .print-box{
+        border:2px solid #000;
+        border-radius:10px;
+        padding:15px;
+        height:100%;
     }
 
     .print-header{
-        display:block;
         text-align:center;
         margin-bottom:20px;
     }
@@ -260,197 +221,157 @@ tbody tr:nth-child(even){
     }
 
     .print-header h2{
+        font-size:22px;
         color:#000;
-        font-size:24px;
-        margin-bottom:10px;
+        margin-bottom:5px;
     }
 
-    .table-container{
-        background:#fff;
-        box-shadow:none;
-        border:none;
+    .print-header p{
+        color:#000;
+        font-size:14px;
     }
 
-    table{
+    .print-table{
         width:100%;
-        font-size:12px;
+        border-collapse:collapse;
+        margin-top:10px;
     }
 
-    thead{
-        background:#d9d9d9 !important;
-        color:#000 !important;
-    }
-
-    thead th{
+    .print-table th{
+        background:#ddd !important;
         color:#000 !important;
         border:1px solid #000;
+        padding:10px;
+        font-size:13px;
     }
 
-    tbody td{
-        color:#000 !important;
+    .print-table td{
         border:1px solid #000;
+        padding:10px;
+        font-size:13px;
+        color:#000;
+        text-align:center;
     }
 
-    tbody tr:nth-child(even),
-    tbody tr:nth-child(odd){
-        background:#fff !important;
+}
+
+@media(max-width:900px){
+
+    .form-grid{
+        grid-template-columns:1fr;
     }
 
-    @page{
-        size:A4 portrait;
-        margin:1cm;
+    .logo-central h1{
+        font-size:34px;
     }
 
 }
 
 </style>
 </head>
-
 <body>
+
+<button class="btn-print" onclick="window.print()">
+IMPRIMIR
+</button>
+
+<div class="topo">
+
+    <div class="logo-central">
+
+        <!-- LOGO CENTRALIZADA -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Prefeitura_do_Natal.png">
+
+        <h1>CONTROLE DE VACINAS</h1>
+
+    </div>
+
+</div>
 
 <div class="container">
 
-    <!-- TOPO -->
-    <div class="topo">
+    <div class="card">
 
-        <img
-        src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png"
-        class="logo"
-        alt="Logo Prefeitura de Natal">
+        <div class="form-grid">
 
-        <button class="btn-print" onclick="window.print()">
-            IMPRIMIR
+            <select id="vacina">
+                <option selected>COVID-19</option>
+                <option>DT ADULTO</option>
+                <option>ANTIRRÁBICA</option>
+                <option>HEPATITE B</option>
+                <option>INFLUENZA</option>
+                <option>TRÍPLICE VIRAL</option>
+            </select>
+
+            <input type="text" id="lote" placeholder="Digite o lote">
+
+            <input type="date" id="validade">
+
+            <select id="laboratorio">
+                <option selected>BUTANTAN</option>
+                <option>FIOCRUZ</option>
+                <option>PFIZER</option>
+                <option>SERUM</option>
+            </select>
+
+        </div>
+
+        <button class="btn-add" onclick="adicionarVacina()">
+            ADICIONAR VACINA
         </button>
 
     </div>
 
-    <!-- TITULO -->
-    <h1>CONTROLE DE VACINAS</h1>
-
-    <!-- FORMULÁRIO -->
-    <div class="form-box">
-
-        <div class="form-grid">
-
-            <!-- VACINA -->
-            <select id="vacina" class="form-control">
-
-                <option>ANTIRRÁBICA</option>
-                <option>DT ADULTO</option>
-                <option>DTPA GESTANTE</option>
-                <option>DTP INFANTIL</option>
-                <option>FEBRE AMARELA</option>
-                <option>HPV4</option>
-                <option>HEPATITE B</option>
-                <option>HEPATITE PED A</option>
-                <option>VARICELA</option>
-                <option>MENINGO ACWY</option>
-                <option>MENINGO C</option>
-                <option>QDENGA</option>
-                <option>DENGUE</option>
-                <option>PENTA</option>
-                <option>PNEUMO 10</option>
-                <option>ROTAVÍRUS</option>
-                <option>TRÍPLICE VIRAL</option>
-                <option>POLIO (VIP)</option>
-                <option>TETRA VIRAL</option>
-                <option>COVID COMIRNATY ADULTO</option>
-                <option>VSR BRONQUIOLITE</option>
-                <option>INFLUENZA</option>
-                <option>PNEUMO 23</option>
-
-            </select>
-
-            <!-- LOTE -->
-            <input type="text"
-            id="lote"
-            class="form-control"
-            placeholder="Digite o lote">
-
-            <!-- VALIDADE -->
-            <input type="date"
-            id="validade"
-            class="form-control">
-
-            <!-- LABORATÓRIO -->
-            <select id="laboratorio" class="form-control">
-
-                <option>BUTANTAN</option>
-                <option>FIOCRUZ</option>
-                <option>SERUM</option>
-                <option>SINOVAC</option>
-                <option>TAKEDA</option>
-                <option>MSD</option>
-                <option>ABRYSVO</option>
-
-            </select>
-
-            <!-- BOTÃO -->
-            <button class="btn-add" onclick="adicionarVacina()">
-                ADICIONAR
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- HEADER IMPRESSÃO -->
-    <div class="print-header">
-
-        <img
-        src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png"
-        alt="Logo Prefeitura">
-
-        <h2>CONTROLE DE VACINAS</h2>
-
-    </div>
-
-    <!-- TABELA -->
     <div class="table-container">
 
-        <table>
+        <table id="tabela">
 
             <thead>
-
                 <tr>
-                    <th>VACINAS</th>
-                    <th>LOTES</th>
+                    <th>VACINA</th>
+                    <th>LOTE</th>
                     <th>VALIDADE</th>
                     <th>LABORATÓRIO</th>
                     <th>AÇÃO</th>
                 </tr>
-
             </thead>
 
-            <tbody id="tabelaVacinas">
+            <tbody></tbody>
 
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ÁREA DE IMPRESSÃO -->
+
+<div class="print-area">
+
+    <div class="print-box">
+
+        <div class="print-header">
+
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Prefeitura_do_Natal.png">
+
+            <h2>CONTROLE DE VACINAS</h2>
+
+            <p>PREFEITURA MUNICIPAL DO NATAL</p>
+
+        </div>
+
+        <table class="print-table">
+
+            <thead>
                 <tr>
-                    <td>ANTIRRÁBICA</td>
-                    <td>X1B951V</td>
-                    <td>31/08/2026</td>
-                    <td>BUTANTAN</td>
-                    <td>
-                        <button class="btn-delete"
-                        onclick="excluirLinha(this)">
-                            Excluir
-                        </button>
-                    </td>
+                    <th>VACINA</th>
+                    <th>LOTE</th>
+                    <th>VALIDADE</th>
+                    <th>LABORATÓRIO</th>
                 </tr>
+            </thead>
 
-                <tr>
-                    <td>DT ADULTO</td>
-                    <td>2335L006C</td>
-                    <td>28/02/2028</td>
-                    <td>SERUM</td>
-                    <td>
-                        <button class="btn-delete"
-                        onclick="excluirLinha(this)">
-                            Excluir
-                        </button>
-                    </td>
-                </tr>
-
-            </tbody>
+            <tbody id="printTableBody"></tbody>
 
         </table>
 
@@ -462,49 +383,78 @@ tbody tr:nth-child(even){
 
 function adicionarVacina(){
 
-    let vacina = document.getElementById("vacina").value;
-    let lote = document.getElementById("lote").value;
-    let validade = document.getElementById("validade").value;
-    let laboratorio = document.getElementById("laboratorio").value;
+    const vacina = document.getElementById('vacina').value;
+    const lote = document.getElementById('lote').value;
+    const validade = document.getElementById('validade').value;
+    const laboratorio = document.getElementById('laboratorio').value;
 
-    if(lote === "" || validade === ""){
-
-        alert("Preencha todos os campos!");
+    if(lote === '' || validade === ''){
+        alert('Preencha lote e validade');
         return;
-
     }
 
-    let data = new Date(validade);
+    const tabela = document.querySelector('#tabela tbody');
 
-    let validadeFormatada =
-        ("0" + data.getDate()).slice(-2) + "/" +
-        ("0" + (data.getMonth()+1)).slice(-2) + "/" +
-        data.getFullYear();
-
-    let tabela = document.getElementById("tabelaVacinas");
-
-    let linha = tabela.insertRow();
+    const linha = tabela.insertRow();
 
     linha.innerHTML = `
         <td>${vacina}</td>
         <td>${lote}</td>
-        <td>${validadeFormatada}</td>
+        <td>${formatarData(validade)}</td>
         <td>${laboratorio}</td>
         <td>
-            <button class="btn-delete" onclick="excluirLinha(this)">
+            <button class="btn-delete" onclick="removerLinha(this)">
                 Excluir
             </button>
         </td>
     `;
 
-    document.getElementById("lote").value = "";
-    document.getElementById("validade").value = "";
+    atualizarImpressao();
+
+    document.getElementById('lote').value = '';
 
 }
 
-function excluirLinha(botao){
+function removerLinha(botao){
 
     botao.parentElement.parentElement.remove();
+
+    atualizarImpressao();
+
+}
+
+function atualizarImpressao(){
+
+    const linhas = document.querySelectorAll('#tabela tbody tr');
+
+    const printBody = document.getElementById('printTableBody');
+
+    printBody.innerHTML = '';
+
+    linhas.forEach(linha => {
+
+        const colunas = linha.querySelectorAll('td');
+
+        const novaLinha = `
+            <tr>
+                <td>${colunas[0].innerText}</td>
+                <td>${colunas[1].innerText}</td>
+                <td>${colunas[2].innerText}</td>
+                <td>${colunas[3].innerText}</td>
+            </tr>
+        `;
+
+        printBody.innerHTML += novaLinha;
+
+    });
+
+}
+
+function formatarData(data){
+
+    const partes = data.split('-');
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
