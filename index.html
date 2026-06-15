@@ -126,6 +126,10 @@ select:focus{
     transition:0.3s;
 }
 
+.btn-add.editando {
+    background:linear-gradient(90deg, #ff9900, #ff5500);
+}
+
 .btn-add:hover{
     transform:scale(1.01);
 }
@@ -167,6 +171,22 @@ tbody td{
     text-align:center;
 }
 
+.acoes-flex {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-edit{
+    background:#ff9900;
+    border:none;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
 .btn-delete{
     background:red;
     border:none;
@@ -194,7 +214,7 @@ tbody td{
     color:#fff;
 }
 
-/* ================= IMPRESSÃO ================= */
+/* ================= IMPRESSÃO (RETRATO) ================= */
 
 .print-area{
     display:none;
@@ -203,13 +223,19 @@ tbody td{
 @media print{
 
     @page{
-        size:A4 landscape;
-        margin:5mm;
+        size: A4 portrait; /* Alterado para Retrato */
+        margin: 10mm 8mm;
     }
 
-    body{
-        background:#fff;
-        color:#000;
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        background: #fff;
+        color: #000;
+    }
+
+    body {
+        display: block !important;
     }
 
     .topo,
@@ -221,27 +247,37 @@ tbody td{
     }
 
     .print-area{
-        display:block;
-        width:100%;
-        margin:0;
-        padding:0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        margin: 0;
+        padding: 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
     }
 
     .print-box{
         width:100%;
+        height: 100%;
         border:2px solid #000;
         border-radius:10px;
-        padding:10px;
+        padding:15px;
         margin:0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .print-header{
         text-align:center;
-        margin-bottom:10px;
+        margin-bottom:15px;
     }
 
     .print-header img{
-        width:120px;
+        width:130px;
         margin-bottom:5px;
     }
 
@@ -249,6 +285,7 @@ tbody td{
         font-size:20px;
         color:#000;
         margin-bottom:3px;
+        font-weight: 800;
     }
 
     .print-header p{
@@ -256,33 +293,42 @@ tbody td{
         font-size:13px;
     }
 
+    /* Envoltório dinâmico para ajustar o tamanho da tabela */
+    .print-table-wrapper {
+        flex: 1;
+        overflow: hidden;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
     .print-table{
         width:100%;
         border-collapse:collapse;
-        margin-top:5px;
     }
 
     .print-table th{
         background:#ddd !important;
         color:#000 !important;
         border:1px solid #000;
-        padding:6px;
+        padding:6px 4px;
         font-size:11px;
     }
 
     .print-table td{
         border:1px solid #000;
-        padding:6px;
+        padding:6px 4px;
         font-size:11px;
         color:#000;
         text-align:center;
     }
 
     .print-footer{
-        margin-top:10px;
         text-align:center;
         font-size:11px;
         color:#000;
+        margin-top: auto;
+        border-top: 1px dashed #000;
+        padding-top: 5px;
     }
 
 }
@@ -325,9 +371,7 @@ IMPRIMIR
 
         <div class="form-grid">
 
-            <!-- VACINAS -->
             <select id="vacina">
-
                 <option selected>ANTIRRÁBICA</option>
                 <option>DT ADULTO</option>
                 <option>DTpa GESTANTE</option>
@@ -351,18 +395,13 @@ IMPRIMIR
                 <option>VSR BRONQUIOLITE</option>
                 <option>INFLUENZA</option>
                 <option>PNEUMO 23</option>
-
             </select>
 
-            <!-- LOTE -->
             <input type="text" id="lote" placeholder="Digite o lote">
 
-            <!-- VALIDADE -->
             <input type="date" id="validade">
 
-            <!-- LABORATÓRIO -->
             <select id="laboratorio">
-
                 <option selected>BUTANTAN</option>
                 <option>FIOCRUZ</option>
                 <option>PFIZER</option>
@@ -373,104 +412,94 @@ IMPRIMIR
                 <option>TAKEDA</option>
                 <option>ABRYSVO</option>
                 <option>MSD</option>
-
             </select>
 
-            <!-- OBSERVAÇÃO -->
             <input type="text" id="observacao" placeholder="Observação">
 
         </div>
 
-        <button class="btn-add" onclick="adicionarVacina()">
+        <input type="hidden" id="edit-id" value="">
+
+        <button class="btn-add" id="btn-salvar" onclick="processarFormulario()">
             ADICIONAR VACINA
         </button>
 
     </div>
 
-    <!-- TABELA -->
-
     <div class="table-container">
 
         <table id="tabela">
-
             <thead>
-
                 <tr>
                     <th>VACINA</th>
                     <th>LOTE</th>
                     <th>VALIDADE</th>
                     <th>LABORATÓRIO</th>
                     <th>OBSERVAÇÃO</th>
-                    <th>AÇÃO</th>
+                    <th>AÇÕES</th>
                 </tr>
-
             </thead>
-
             <tbody></tbody>
-
         </table>
 
     </div>
 
 </div>
 
-<!-- FOOTER -->
-
 <footer class="footer">
-
     <strong>ANTONIEL SOUSA</strong><br>
     UBS CIDADE SATÉLITE
-
 </footer>
 
-<!-- ÁREA DE IMPRESSÃO -->
-
 <div class="print-area">
-
     <div class="print-box">
+        <div>
+            <div class="print-header">
+                <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logo Prefeitura">
+                <h2>CONTROLE DE VACINAS</h2>
+                <p>PREFEITURA MUNICIPAL DO NATAL</p>
+            </div>
 
-        <div class="print-header">
-
-            <img src="https://www.natal.rn.gov.br/sme/matriculaonline/img/logo_natal_ws.png" alt="Logo Prefeitura">
-
-            <h2>CONTROLE DE VACINAS</h2>
-
-            <p>PREFEITURA MUNICIPAL DO NATAL</p>
-
+            <div class="print-table-wrapper">
+                <table class="print-table">
+                    <thead>
+                        <tr>
+                            <th>VACINA</th>
+                            <th>LOTE</th>
+                            <th>VALIDADE</th>
+                            <th>LABORATÓRIO</th>
+                            <th>OBSERVAÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="printTableBody"></tbody>
+                </table>
+            </div>
         </div>
-
-        <table class="print-table">
-
-            <thead>
-
-                <tr>
-                    <th>VACINA</th>
-                    <th>LOTE</th>
-                    <th>VALIDADE</th>
-                    <th>LABORATÓRIO</th>
-                    <th>OBSERVAÇÃO</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="printTableBody"></tbody>
-
-        </table>
 
         <div class="print-footer">
-
             UBS Cidade Satélite • Controle de Vacinas
-
         </div>
-
     </div>
-
 </div>
 
 <script>
 
-function adicionarVacina(){
+// Executa ao inicializar a página
+document.addEventListener("DOMContentLoaded", () => {
+    carregarVacinas();
+});
 
+function processarFormulario() {
+    const idEdicao = document.getElementById('edit-id').value;
+
+    if (idEdicao === "") {
+        adicionarVacina();
+    } else {
+        salvarEdicao(parseInt(idEdicao));
+    }
+}
+
+function adicionarVacina(){
     const vacina = document.getElementById('vacina').value;
     const lote = document.getElementById('lote').value;
     const validade = document.getElementById('validade').value;
@@ -478,80 +507,185 @@ function adicionarVacina(){
     const observacao = document.getElementById('observacao').value;
 
     if(lote === '' || validade === ''){
-
         alert('Preencha lote e validade');
-
         return;
-
     }
 
-    const tabela = document.querySelector('#tabela tbody');
+    const novaVacina = {
+        id: Date.now(),
+        vacina,
+        lote,
+        validade,
+        laboratorio,
+        observacao
+    };
 
+    salvarNoLocalStorage(novaVacina);
+    adicionarLinhaNaTabela(novaVacina);
+    atualizarImpressao();
+    limparFormulario();
+}
+
+function adicionarLinhaNaTabela(item) {
+    const tabela = document.querySelector('#tabela tbody');
     const linha = tabela.insertRow();
+    
+    linha.setAttribute('data-id', item.id);
 
     linha.innerHTML = `
-        <td>${vacina}</td>
-        <td>${lote}</td>
-        <td>${formatarData(validade)}</td>
-        <td>${laboratorio}</td>
-        <td>${observacao}</td>
+        <td>${item.vacina}</td>
+        <td>${item.lote}</td>
+        <td>${formatarData(item.validade)}</td>
+        <td>${item.laboratorio}</td>
+        <td>${item.observacao}</td>
         <td>
-            <button class="btn-delete" onclick="removerLinha(this)">
-                Excluir
-            </button>
+            <div class="acoes-flex">
+                <button class="btn-edit" onclick="prepararEdicao(${item.id})">Editar</button>
+                <button class="btn-delete" onclick="removerLinha(this, ${item.id})">Excluir</button>
+            </div>
         </td>
     `;
+}
 
+function prepararEdicao(id) {
+    const vacinas = obterVacinasSalvas();
+    const item = vacinas.find(v => v.id === id);
+
+    if (item) {
+        document.getElementById('vacina').value = item.vacina;
+        document.getElementById('lote').value = item.lote;
+        document.getElementById('validade').value = item.validade;
+        document.getElementById('laboratorio').value = item.laboratorio;
+        document.getElementById('observacao').value = item.observacao;
+        
+        document.getElementById('edit-id').value = item.id;
+
+        const btnSalvar = document.getElementById('btn-salvar');
+        btnSalvar.innerText = "SALVAR ALTERAÇÕES";
+        btnSalvar.classList.add('editando');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function salvarEdicao(id) {
+    const vacina = document.getElementById('vacina').value;
+    const lote = document.getElementById('lote').value;
+    const validade = document.getElementById('validade').value;
+    const laboratorio = document.getElementById('laboratorio').value;
+    const observacao = document.getElementById('observacao').value;
+
+    if(lote === '' || validade === ''){
+        alert('Preencha lote e validade');
+        return;
+    }
+
+    let vacinas = obterVacinasSalvas();
+    const index = vacinas.findIndex(v => v.id === id);
+
+    if (index !== -1) {
+        vacinas[index] = { id, vacina, lote, validade, laboratorio, observacao };
+        localStorage.setItem('controle_vacinas', JSON.stringify(vacinas));
+
+        const linha = document.querySelector(`tr[data-id="${id}"]`);
+        if (linha) {
+            linha.innerHTML = `
+                <td>${vacina}</td>
+                <td>${lote}</td>
+                <td>${formatarData(validade)}</td>
+                <td>${laboratorio}</td>
+                <td>${observacao}</td>
+                <td>
+                    <div class="acoes-flex">
+                        <button class="btn-edit" onclick="prepararEdicao(${id})">Editar</button>
+                        <button class="btn-delete" onclick="removerLinha(this, ${id})">Excluir</button>
+                    </div>
+                </td>
+            `;
+        }
+
+        atualizarImpressao();
+        limparFormulario();
+    }
+}
+
+function removerLinha(botao, id){
+    const idEdicao = document.getElementById('edit-id').value;
+    if (idEdicao == id) {
+        limparFormulario();
+    }
+
+    botao.parentElement.parentElement.parentElement.remove();
+    removerDoLocalStorage(id);
     atualizarImpressao();
+}
 
+function limparFormulario() {
     document.getElementById('lote').value = '';
     document.getElementById('validade').value = '';
     document.getElementById('observacao').value = '';
+    document.getElementById('edit-id').value = '';
 
+    const btnSalvar = document.getElementById('btn-salvar');
+    btnSalvar.innerText = "ADICIONAR VACINA";
+    btnSalvar.classList.remove('editando');
 }
 
-function removerLinha(botao){
+// Gerenciamento do LocalStorage
+function salvarNoLocalStorage(vacina) {
+    let vacinas = obterVacinasSalvas();
+    vacinas.push(vacina);
+    localStorage.setItem('controle_vacinas', JSON.stringify(vacinas));
+}
 
-    botao.parentElement.parentElement.remove();
+function obterVacinasSalvas() {
+    const dados = localStorage.getItem('controle_vacinas');
+    return dados ? JSON.parse(dados) : [];
+}
 
+function removerDoLocalStorage(id) {
+    let vacinas = obterVacinasSalvas();
+    vacinas = vacinas.filter(item => item.id !== id);
+    localStorage.setItem('controle_vacinas', JSON.stringify(vacinas));
+}
+
+function carregarVacinas() {
+    const vacinas = obterVacinasSalvas();
+    vacinas.forEach(item => {
+        adicionarLinhaNaTabela(item);
+    });
     atualizarImpressao();
-
 }
 
 function atualizarImpressao(){
-
     const linhas = document.querySelectorAll('#tabela tbody tr');
-
     const printBody = document.getElementById('printTableBody');
-
     printBody.innerHTML = '';
 
     linhas.forEach(linha => {
-
-        const colunas = linha.querySelectorAll('td');
-
+        const colunas = inlineColunas(linha);
         const novaLinha = `
             <tr>
-                <td>${colunas[0].innerText}</td>
-                <td>${colunas[1].innerText}</td>
-                <td>${colunas[2].innerText}</td>
-                <td>${colunas[3].innerText}</td>
-                <td>${colunas[4].innerText}</td>
+                <td>${colunas[0]}</td>
+                <td>${colunas[1]}</td>
+                <td>${colunas[2]}</td>
+                <td>${colunas[3]}</td>
+                <td>${colunas[4]}</td>
             </tr>
         `;
-
         printBody.innerHTML += novaLinha;
-
     });
+}
 
+function inlineColunas(linha) {
+    const tds = linha.querySelectorAll('td');
+    return Array.from(tds).map(td => td.innerText);
 }
 
 function formatarData(data){
-
+    if(!data.includes('-')) return data; 
     const partes = data.split('-');
-
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
 }
 
 </script>
