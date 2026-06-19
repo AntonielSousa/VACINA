@@ -214,7 +214,7 @@ tbody td{
     color:#fff;
 }
 
-/* ================= IMPRESSÃO (RETRATO) ================= */
+/* ================= IMPRESSÃO ================= */
 
 .print-area{
     display:none;
@@ -223,8 +223,8 @@ tbody td{
 @media print{
 
     @page{
-        size: A4 portrait; /* Alterado para Retrato */
-        margin: 10mm 8mm;
+        size: A4 portrait;
+        margin: 8mm 8mm;
     }
 
     html, body {
@@ -246,17 +246,28 @@ tbody td{
         display:none !important;
     }
 
+    /* Container base da área de impressão */
     .print-area{
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         width: 100%;
-        height: 100%;
-        max-height: 100%;
         margin: 0;
         padding: 0;
         page-break-inside: avoid;
         break-inside: avoid;
+        overflow: hidden;
+    }
+
+    /* Regra para OPÇÃO FOLHA INTEIRA */
+    .print-area.folha-inteira {
+        height: 100vh;
+        max-height: 100vh;
+    }
+
+    /* Regra para OPÇÃO MEIA FOLHA */
+    .print-area.meia-folha {
+        height: 48vh;
+        max-height: 48vh;
     }
 
     .print-box{
@@ -273,32 +284,31 @@ tbody td{
 
     .print-header{
         text-align:center;
-        margin-bottom:15px;
+        margin-bottom:10px;
     }
 
     .print-header img{
-        width:130px;
-        margin-bottom:5px;
+        width:120px;
+        margin-bottom:4px;
     }
 
     .print-header h2{
-        font-size:20px;
+        font-size:18px;
         color:#000;
-        margin-bottom:3px;
+        margin-bottom:2px;
         font-weight: 800;
     }
 
     .print-header p{
         color:#000;
-        font-size:13px;
+        font-size:12px;
     }
 
-    /* Envoltório dinâmico para ajustar o tamanho da tabela */
     .print-table-wrapper {
         flex: 1;
         overflow: hidden;
-        margin-top: 10px;
-        margin-bottom: 15px;
+        margin-top: 5px;
+        margin-bottom: 10px;
     }
 
     .print-table{
@@ -310,17 +320,24 @@ tbody td{
         background:#ddd !important;
         color:#000 !important;
         border:1px solid #000;
-        padding:6px 4px;
+        padding:5px 4px;
         font-size:11px;
     }
 
     .print-table td{
         border:1px solid #000;
-        padding:6px 4px;
+        padding:5px 4px;
         font-size:11px;
         color:#000;
         text-align:center;
     }
+
+    /* Ajustes específicos de tamanho reduzido quando for meia folha */
+    .print-area.meia-folha .print-box { padding: 10px; }
+    .print-area.meia-folha .print-header img { width: 95px; }
+    .print-area.meia-folha .print-header h2 { font-size: 16px; }
+    .print-area.meia-folha .print-table th, 
+    .print-area.meia-folha .print-table td { padding: 4px 3px; font-size: 10px; }
 
     .print-footer{
         text-align:center;
@@ -349,7 +366,7 @@ tbody td{
 </head>
 <body>
 
-<button class="btn-print" onclick="window.print()">
+<button class="btn-print" onclick="dispararImpressao()">
 IMPRIMIR
 </button>
 
@@ -451,7 +468,7 @@ IMPRIMIR
     UBS CIDADE SATÉLITE
 </footer>
 
-<div class="print-area">
+<div class="print-area" id="areaImpressao">
     <div class="print-box">
         <div>
             <div class="print-header">
@@ -484,10 +501,28 @@ IMPRIMIR
 
 <script>
 
-// Executa ao inicializar a página
 document.addEventListener("DOMContentLoaded", () => {
     carregarVacinas();
 });
+
+// Nova função para gerenciar o tipo de folha escolhido
+function dispararImpressao() {
+    const escopoImpressao = document.getElementById('areaImpressao');
+    
+    // Pergunta ao usuário qual o formato desejado
+    const desejaMeiaFolha = confirm("Deseja imprimir em MEIA FOLHA?\n\n[OK] para Meia Folha\n[Cancelar] para Folha Inteira");
+
+    if (desejaMeiaFolha) {
+        escopoImpressao.classList.remove('folha-inteira');
+        escopoImpressao.classList.add('meia-folha');
+    } else {
+        escopoImpressao.classList.remove('meia-folha');
+        escopoImpressao.classList.add('folha-inteira');
+    }
+
+    // Abre a janela de impressão do navegador
+    window.print();
+}
 
 function processarFormulario() {
     const idEdicao = document.getElementById('edit-id').value;
@@ -631,7 +666,6 @@ function limparFormulario() {
     btnSalvar.classList.remove('editando');
 }
 
-// Gerenciamento do LocalStorage
 function salvarNoLocalStorage(vacina) {
     let vacinas = obterVacinasSalvas();
     vacinas.push(vacina);
@@ -678,8 +712,12 @@ function atualizarImpressao(){
 }
 
 function inlineColunas(linha) {
-    const tds = linha.querySelectorAll('td');
-    return Array.from(tds).map(td => td.innerText);
+    const tds = inlineTds(linha);
+    return tds.map(td => td.innerText);
+}
+
+function inlineTds(linha) {
+    return Array.from(linha.querySelectorAll('td'));
 }
 
 function formatarData(data){
